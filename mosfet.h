@@ -31,7 +31,7 @@ void init_nmos(mosfet* m, bool h, void* i)
 void init_pmos(mosfet* m, bool h, void* i)
 {
     m->input = i; 
-    m->high =  ~(((mosfet*)i)->high & h) & 1;
+    m->high =  ((mosfet*)i)->high & ~h;
 }
 
 //Initializes voltage source as high

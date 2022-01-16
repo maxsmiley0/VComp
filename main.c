@@ -3,33 +3,7 @@
 
 int main()
 {
-    //And gate
-    bool x = false;
-    bool y = false;
-
-    vcc v;
-    mosfet m1;
-    mosfet m2;
-
-    init_vcc(&v);
-    init_nmos(&m1, x, &v);
-    init_nmos(&m2, y, &m1);
-
-    //or gate
-    vcc v1;
-    vcc v2;
-
-    mosfet n1;
-    mosfet n2;
-
-    juncture j;
-
-    init_vcc(&v1);
-    init_vcc(&v2);
-    init_nmos(&n1, x, &v1);
-    init_nmos(&n2, y, &v2);
-    init_juncture(&j, &n1, &n2);
-
+    /*
     //inverter
     vcc s;
     mosfet n;
@@ -51,5 +25,11 @@ int main()
     init_nmos(&r4, y, &r3);
     init_juncture(&jp, &r2, &r4);
 
-    printf("%d\n", jp.high);
+*/
+    gate x, y, g;
+    init_gate(&x, false);
+    init_gate(&y, true);
+
+    init_nand(&g, &x, &y);
+    printf("%d\n", g.val);
 }
