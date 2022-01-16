@@ -2,8 +2,7 @@
 #include "modules.h"
 
 int main()
-{
-    
+{   
     gate x, y, z;
     init_gate(&x, false);
     init_gate(&y, false);

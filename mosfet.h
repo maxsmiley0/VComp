@@ -1,5 +1,8 @@
 #include <stdbool.h>
 
+#ifndef MOSFET_H
+#define MOSFET_H
+
 //Virtualizes mosfet transistors, used to implement logic gates
 
 //Can either be PMOS or NMOS depending on initialization
@@ -21,29 +24,12 @@ typedef struct {
 } juncture;
 
 //NMOS - essentially stores the voltage value given (as field high)
-void init_nmos(mosfet* m, bool h, void* i)
-{
-    m->input = i; 
-    m->high = (((mosfet*)i)->high & h);
-}
-
+void init_nmos(mosfet* m, bool h, void* i);
 //PMOS - essentially inverts the voltage value given (as field high)
-void init_pmos(mosfet* m, bool h, void* i)
-{
-    m->input = i; 
-    m->high =  ((mosfet*)i)->high & ~h;
-}
-
+void init_pmos(mosfet* m, bool h, void* i);
 //Initializes voltage source as high
-void init_vcc(vcc* v)
-{
-    v->high = true;
-}
-
+void init_vcc(vcc* v);
 //Given two input wires, specifies the voltage value
-void init_juncture(juncture* j, void* i_1, void* i_2)
-{
-    j->input_1 = i_1;
-    j->input_2 = i_2;
-    j->high = ((mosfet*)j->input_1)->high | ((mosfet*)j->input_2)->high;
-}
+void init_juncture(juncture* j, void* i_1, void* i_2);
+
+#endif

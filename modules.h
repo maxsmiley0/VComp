@@ -1,4 +1,9 @@
-#include "flipflop.h"
+#include "gates.h"
+
+#ifndef MODULES_H
+#define MODULES_H
+
+//Creates standard modules from logic gates
 
 //2 to 1 mux (1 select line)... select false = 1, select true = 2
 typedef struct {
@@ -12,21 +17,6 @@ typedef struct {
     gate select_true, select_false, not_select, combine;
 } mux_2x1;
 
-void init_mux_2x1(mux_2x1* m, gate* i_1, gate* i_2, gate* s) {
-    m->input_1 = i_1;
-    m->input_2 = i_2;
-    m->select = s;
-
-    init_not(&(m->not_select), m->select);
-    init_and(&(m->select_false), m->input_1, &(m->not_select));
-    init_and(&(m->select_true), m->input_2, m->select);
-    init_or(&(m->combine), &(m->select_true), &(m->select_false));
-}
-
-void update_mux_2x1(mux_2x1* m) {
-    update_network(&(m->combine));
-    m->bit = m->combine.val;
-}
 /*
 //Full adder
 //The hardware should be in the struct... worry abt that later
@@ -55,6 +45,39 @@ typedef struct {
 
 } reg_8;
 
+//D flip flop - read from referencing bit, and write by clocking the flip flop with a given d value
+typedef struct {
+    //Stored data
+    bool bit;
+
+    //Synchronous part
+    gate D, D_inv, sync_1, sync_2, clk;
+
+    //Latch part - latch_1.val := stored bit, latch_2.val := ~stored bit
+    gate latch_1, latch_2;
+
+} d_flipflop;
+
+//JK flip flop - read from referencing bit, and set / reset bit with given values for j and k
+typedef struct {
+    //Stored data
+    bool bit;
+
+    //Synchronous part (sync_a_b refers to the bth series gate in the ath row - necessary for 3-fold logical operations)
+    gate J, K, clk, sync_1_1, sync_1_2, sync_2_1, sync_2_2;
+
+    //Latch part - latch_1.val := stored bit, latch_2.val := ~stored bit
+    gate latch_1, latch_2;
+
+} jk_flipflop;
+
+void init_mux_2x1(mux_2x1* m, gate* i_1, gate* i_2, gate* s);
+void update_mux_2x1(mux_2x1* m);
+void init_df(d_flipflop* df);
+void clock_df(d_flipflop* df, bool d_val);
+void init_jkf(jk_flipflop* jkf);
+void clock_jkf(jk_flipflop* jkf, bool j_val, bool k_val);
+
 /*
 Good modules to have:
 later subsume flipflop into modules and make a .c file
@@ -66,3 +89,5 @@ Miltiplexors
 Registers
 Graphics display
 */
+
+#endif
