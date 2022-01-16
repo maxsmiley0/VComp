@@ -7,11 +7,7 @@ Transistors (C)
 
 Logic Gates (C)
 
-Flip Flops (C)
-
-Registers (IP)
-
-Standard Modules (IP)
+Standard Modules (IP) - (Mux, Flip Flops, Registers, Adders)
 
 ALU
 
