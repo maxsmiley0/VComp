@@ -6,6 +6,7 @@ int main()
     d_flipflop df;
     init_df(&df);
     clock_df(&df, true);
+    clock_df(&df, false);
 
-    printf("%d\n", df.latch_1.val);
+    printf("%d\n", df.bit);
 }
